@@ -1,2 +1,3 @@
 runtime_settings.py
 *.pyc
+/data/backtests
