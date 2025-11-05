@@ -2,9 +2,11 @@ from pathlib import Path
 import pandas as pd
 from llm_trader.runner.historical_runner import HistoricalRunner
 
+template_hist_file = "llm_trader/experiments/eurusd_5m.csv"
+
 if __name__ == "__main__":
     runner = HistoricalRunner(
-        data_path=Path("data/raw/eurusd_5m.csv"),
+        data_path=Path(template_hist_file),
         output_dir=Path("data/backtests"),
         window_size_days=30,
         step_size_days=5,
@@ -18,10 +20,6 @@ if __name__ == "__main__":
     )
 
 
-    # 3️⃣  Execute and inspect output
+    # execute and inspect output
     metrics_df = runner.run()
     print(metrics_df)
-
-    # 4️⃣  Optionally, open your dashboard prototype
-    # from llm_trader.analytics.metrics_dashboard import show_dashboard
-    # show_dashboard(metrics_df)
