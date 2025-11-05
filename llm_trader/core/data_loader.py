@@ -10,22 +10,36 @@ import pandas as pd
 REQUIRED_COLS = ["timestamp", "open", "high", "low", "close", "volume"]
 
 
-def load_ohlcv(path: str) -> pd.DataFrame:
+import pandas as pd
+from pathlib import Path
+
+
+def load_ohlcv(path: str | Path) -> pd.DataFrame:
     """
-    Load and validate OHLCV data
+    Load OHLCV data from CSV or Parquet file automatically.
 
     Args:
-        path: Path to csv file
+        path: Path to .csv or .parquet file.
 
     Returns:
-        Cleaned DataFrame indexed by timestamp (UTC)
+        DataFrame with standard OHLCV columns.
     """
-    df = pd.read_csv(path)
+    path = Path(path)
 
-    missing = [c for c in REQUIRED_COLS if c not in df.columns]
-    if missing:
-        raise ValueError(f"Missing columns: {missing}")
+    if not path.exists():
+        raise FileNotFoundError(f"File not found: {path}")
 
-    df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True)
-    df = df.sort_values("timestamp").reset_index(drop=True)
+    if path.suffix == ".parquet":
+        df = pd.read_parquet(path)
+    elif path.suffix == ".csv":
+        df = pd.read_csv(path)
+    else:
+        raise ValueError(f"Unsupported file format: {path.suffix}")
+
+    # Optional standardization for downstream use
+    required_cols = {"open", "high", "low", "close"}
+    if not required_cols.issubset(df.columns):
+        raise ValueError(f"Missing required OHLC columns in {path.name}")
+
     return df
+
