@@ -1,41 +1,40 @@
 from pathlib import Path
 import pandas as pd
+from llm_trader.core import indicator_engine
 from llm_trader.intelligence.context_summarizer import ContextSummarizer
 
+template_hist_file = "llm_trader/experiments/eurusd_5m.csv"
 
-# ---------------------------------------------------------------------
-# Load 5M EURUSD
-# ---------------------------------------------------------------------
 def load_data() -> pd.DataFrame:
-    path = Path("data/raw/eurusd_5m.csv")
-    print(f"using real data: {path}")
-    df = pd.read_csv(path)
-    # normalize column names
-    df.columns = [c.lower() for c in df.columns]
-    # ensure timestamp column is parsed
-    if "timestamp" in df.columns:
-        df["timestamp"] = pd.to_datetime(df["timestamp"])
-    return df.tail(200)  # recent 200 bars for context
+    path = Path(template_hist_file)
+    if path.exists():
+        print(f"using real data: {path}")
+        df = pd.read_csv(path)
+        df.columns = [c.lower() for c in df.columns]
+        if "timestamp" in df.columns: df["timestamp"] = pd.to_datetime(df["timestamp"])
+        return df.tail(500)
+    else:
+        raise FileNotFoundError(f"{template_hist_file} not found")
 
-
-
-# ---------------------------------------------------------------------
-# Hookin' in
-# ---------------------------------------------------------------------
 def main():
     df = load_data()
+    df = indicator_engine.add_indicators(
+        df,
+        rsi_window = 7,
+        ema_fast = 12,
+        ema_slow = 26,
+        adx_window = 14,
+        atr_window = 14)
+    
     summarizer = ContextSummarizer()
     summary = summarizer.summarize(df)
 
     print("\n=== CONTEXT SUMMARY ===")
     print(summary.text)
+
     print("\n=== STRUCTURED FEATURES ===")
     for k, v in summary.features.as_dict().items():
         print(f"{k:15s}: {v}")
 
-
-# ---------------------------------------------------------------------
-# Run in VSCode Debug
-# ---------------------------------------------------------------------
 if __name__ == "__main__":
     main()
