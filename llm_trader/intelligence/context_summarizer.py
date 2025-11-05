@@ -95,10 +95,12 @@ class ContextSummarizer:
         rsi_oversold: float = 30.0,
         rsi_overbought: float = 70.0,
         n_candles: int = 50,
+        n_recent: int = 5
     ) -> None:
         self.rsi_oversold = rsi_oversold
         self.rsi_overbought = rsi_overbought
         self.n_candles = n_candles
+        self.n_recent = n_recent
 
     # ------------------------------------------------------------------
     def summarize(self, df: pd.DataFrame) -> ContextSummary:
@@ -167,7 +169,7 @@ class ContextSummarizer:
 
     def _color_counts(self, df: pd.DataFrame) -> tuple[int, int]:
         colors = np.where(df["close"] >= df["open"], 1, -1)
-        last = colors[-5:] if len(colors) >= 5 else colors
+        last = colors[-self.n_recent:] if len(colors) >= self.n_recent else colors
         return int((last == 1).sum()), int((last == -1).sum())
 
     def _atr_rank(self, df: pd.DataFrame, atr: Optional[float]) -> Optional[float]:
