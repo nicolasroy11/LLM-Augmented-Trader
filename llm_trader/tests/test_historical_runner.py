@@ -13,7 +13,7 @@ from llm_trader.runner.historical_runner import HistoricalRunner
 def _make_mock_data(path: Path) -> None:
     """Create a small artificial OHLCV dataset for testing."""
     df = pd.DataFrame({
-        "timestamp": pd.date_range("2024-01-01", periods=48, freq="H"),
+        "timestamp": pd.date_range("2024-01-01", periods=48, freq="h"),
         "open": np.linspace(1.10, 1.20, 48),
         "high": np.linspace(1.11, 1.21, 48),
         "low": np.linspace(1.09, 1.19, 48),

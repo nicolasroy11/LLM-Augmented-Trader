@@ -12,7 +12,7 @@ from llm_trader.core.backtester import Backtester, BacktestMetrics
 def sample_df() -> pd.DataFrame:
     """Return a minimal labeled DataFrame with outcomes."""
     return pd.DataFrame({
-        "timestamp": pd.date_range("2024-01-01", periods=6, freq="H"),
+        "timestamp": pd.date_range("2024-01-01", periods=6, freq="h"),
         "open": [1.0, 1.1, 1.2, 1.1, 1.0, 1.05],
         "high": [1.2, 1.3, 1.25, 1.15, 1.1, 1.06],
         "low": [0.9, 1.0, 1.1, 1.0, 0.95, 1.0],
