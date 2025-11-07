@@ -1,3 +1,4 @@
 runtime_settings.py
 *.pyc
 /data/backtests
+data/eval/llm_decisions.parquet
