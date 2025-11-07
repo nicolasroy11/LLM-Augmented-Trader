@@ -1,4 +1,3 @@
-# llm_trader/intelligence/decision_agent.py
 from __future__ import annotations
 
 import json
