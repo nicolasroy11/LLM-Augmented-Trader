@@ -2,6 +2,8 @@
 
 import { useOhlcvData, useEvalData } from "../lib/api";
 import CandleChart from "../components/CandleChart";
+import StatsPanel from "../components/StatsPanel";
+
 
 export default function Home() {
   const { data: ohlcv, isLoading: ohlcvLoading } = useOhlcvData();
@@ -14,8 +16,9 @@ export default function Home() {
     return <div className="p-8 text-red-500">Failed to load data.</div>;
 
   return (
-    <main className="p-4 bg-gray-950 text-gray-100 min-h-screen">
+    <main className="p-4">
       <h1 className="text-2xl font-bold mb-4 text-blue-400">Perspectiv Trader Dashboard</h1>
+      <StatsPanel />
       <CandleChart priceData={ohlcv} decisionData={evals} />
     </main>
   );

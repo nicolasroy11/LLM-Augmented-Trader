@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
-from llm_trader.backend.routers import eval, ohlcv
+from llm_trader.backend.routers import eval, ohlcv, eval_stats
 
 app = FastAPI(title="LLM Trader Backend", version="0.1.0")
 
@@ -16,6 +16,7 @@ app.add_middleware(
 # Mount routers
 app.include_router(eval.router, prefix="/api", tags=["Evaluation"])
 app.include_router(ohlcv.router, prefix="/api", tags=["Price Data"])
+app.include_router(eval_stats.router)
 
 
 @app.get("/")
