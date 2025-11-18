@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 # Determine repo root by climbing out of scripts dir
-Set-Location "$PSScriptRoot/../../.."   # now you're at repo root
+Set-Location "$PSScriptRoot/../../.."   # repo root
 
 $AWS_REGION = "us-west-2"
 $ECR_REPO   = "451747690945.dkr.ecr.$AWS_REGION.amazonaws.com/perspectiv-trader-backend"
