@@ -20,7 +20,7 @@ class BaseForexPositionManager:
         self.commission_per_lot = (
             commission_per_lot 
             if commission_per_lot is not None 
-            else rs.COMMISSION_PER_LOT
+            else rs.ROUNDTRIP_COMMISSION_PER_LOT
         )
 
         # runtime state

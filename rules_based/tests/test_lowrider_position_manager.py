@@ -11,7 +11,7 @@ def test_lowrider_initializes():
 
     assert pm.open_positions == []
     assert pm.closed_positions == []
-    assert pm.commission_per_lot == rs.COMMISSION_PER_LOT
+    assert pm.commission_per_lot == rs.ROUNDTRIP_COMMISSION_PER_LOT
     assert pm.instrument is instrument
 
 

@@ -4,7 +4,7 @@ import runtime_settings as rs
 
 
 class LowriderPositionManager(BaseForexPositionManager):
-    def __init__(self, instrument: ForexInstrument, commission_per_lot=rs.COMMISSION_PER_LOT):
+    def __init__(self, instrument: ForexInstrument, commission_per_lot=rs.ROUNDTRIP_COMMISSION_PER_LOT):
         super().__init__(instrument, commission_per_lot)
 
     def open_position(
